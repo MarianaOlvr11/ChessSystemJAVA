@@ -26,8 +26,12 @@ public class ChessMatch {  // aqui terá as regras do sistema de Xadrez
         return mat; // retorna a matriz de peças da partida de xadrez
     }
 
+    private void placeNewPieceModelA1(char column, int row, ChessPiece piece){
+        board.placePiece(piece, new ChessPosition(column, row).toPosition()); // passa a posição nas cordenadas do xadrez a1
+    }
+
     private void initialSetup(){  // inicia a partida com as peças no lugar
-        board.placePiece(new Rook(board, Color.WHITE), new Position(0, 0));// coloca a torre no lugar com a cor branca
-        board.placePiece(new King(board, Color.BLACK), new Position(0, 3));
+       placeNewPieceModelA1('a', 1, new Rook(board, Color.WHITE));// coloca a torre no lugar com a cor branca
+        placeNewPieceModelA1('d', 1, new King(board, Color.WHITE));
     }
 }
