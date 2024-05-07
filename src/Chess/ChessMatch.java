@@ -31,7 +31,19 @@ public class ChessMatch {  // aqui terá as regras do sistema de Xadrez
     }
 
     private void initialSetup(){  // inicia a partida com as peças no lugar
-       placeNewPieceModelA1('a', 1, new Rook(board, Color.WHITE));// coloca a torre no lugar com a cor branca
+
+
+        placeNewPieceModelA1('c', 2, new Rook(board, Color.WHITE)); // coloca a torre no lugar com a cor branca
+        placeNewPieceModelA1('d', 2, new Rook(board, Color.WHITE));
+        placeNewPieceModelA1('e', 2, new Rook(board, Color.WHITE));
+        placeNewPieceModelA1('e', 1, new Rook(board, Color.WHITE));
         placeNewPieceModelA1('d', 1, new King(board, Color.WHITE));
+
+        placeNewPieceModelA1('c', 7, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('c', 8, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('d', 7, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('e', 7, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('e', 8, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('d', 8, new King(board, Color.BLACK));
     }
 }
