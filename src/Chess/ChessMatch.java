@@ -3,6 +3,8 @@ package Chess;
 import Chess.pieces.King;
 import Chess.pieces.Rook;
 import boardGame.Board;
+import boardGame.BoardException;
+import boardGame.Piece;
 import boardGame.Position;
 
 
@@ -24,6 +26,31 @@ public class ChessMatch {  // aqui terá as regras do sistema de Xadrez
             }
         }
         return mat; // retorna a matriz de peças da partida de xadrez
+    }
+
+    public ChessPiece performChessMove (ChessPosition sourcePosition, ChessPosition targetPosition){
+        Position source = sourcePosition.toPosition();
+        Position target = targetPosition.toPosition();
+
+        validateSourcePosition(source); // valida a posição de origem existe
+
+        Piece capturePiece = makeMove(source, target); // realiza movimento da peça
+
+        return (ChessPiece) capturePiece;
+    }
+
+    private Piece makeMove(Position source, Position target){
+        Piece p = board.removePiece(source);
+        Piece capturePiece = board.removePiece(target); // remove possivel peça da posição de destino
+        board.placePiece(p, target);
+
+        return capturePiece;
+    }
+
+    private void validateSourcePosition (Position position){
+        if (!board.thereIsAPiece(position)){ // se não existir peça nessa posição dar exceção
+            throw new ChessException("There is no piece on source position");
+        }
     }
 
     private void placeNewPieceModelA1(char column, int row, ChessPiece piece){
