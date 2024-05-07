@@ -1,8 +1,11 @@
+import Chess.ChessException;
 import Chess.ChessMatch;
 import Chess.ChessPiece;
 import Chess.ChessPosition;
+import boardGame.BoardException;
 import boardGame.Position;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class Main {
@@ -16,18 +19,33 @@ public class Main {
 
 
        while(true) {
-           // fazer função para imprimir peças do tabuleiro
-           UI.printBoard(chessMatch.getPieces());
-           System.out.println();
-           System.out.print("Source: ");
-           ChessPosition source = UI.readChessPosition(sc);
 
-           System.out.println();
-           System.out.print("Target: ");
-           ChessPosition target = UI.readChessPosition(sc);
+          try {
+              // fazer função para imprimir peças do tabuleiro
+              UI.clearScreen(); // limpa a tela toda vez que o while volta
+              UI.printBoard(chessMatch.getPieces());
+              System.out.println();
+              System.out.print("Source: ");
+              ChessPosition source = UI.readChessPosition(sc);
 
-           ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+              System.out.println();
+              System.out.print("Target: ");
+              ChessPosition target = UI.readChessPosition(sc);
 
+              ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+          }
+          catch (ChessException e){
+              System.out.println(e.getMessage());
+              sc.nextLine();
+          }
+          catch (InputMismatchException e){
+              System.out.println(e.getMessage());
+              sc.nextLine();
+          }
+          catch (BoardException e){
+              System.out.println(e.getMessage());
+              sc.nextLine();
+          }
        }
         
     }
