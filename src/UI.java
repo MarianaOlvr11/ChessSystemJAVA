@@ -62,6 +62,7 @@ public class UI {
         System.out.println("  a b c d e f g h");
     }
 
+    // sobrecarga do metodo printBoard
     public static void printBoard(ChessPiece[][] pieces, boolean [][] possibleMoves){// metodo estatico recebe a matriz pieces
 
         for (int i = 0; i < pieces.length; i++){
