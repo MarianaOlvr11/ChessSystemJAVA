@@ -55,16 +55,31 @@ public class UI {
         for (int i = 0; i < pieces.length; i++){
             System.out.print((8 - i) + " ");
             for (int c = 0; c < pieces.length; c++){
-                printPiece(pieces[i][c]);
+                printPiece(pieces[i][c], false); // indica q nenhuma peça deve ter o fundo colorido
             }
             System.out.println();
         }
         System.out.println("  a b c d e f g h");
     }
 
-    private static void printPiece(ChessPiece piece){
+    public static void printBoard(ChessPiece[][] pieces, boolean [][] possibleMoves){// metodo estatico recebe a matriz pieces
+
+        for (int i = 0; i < pieces.length; i++){
+            System.out.print((8 - i) + " ");
+            for (int c = 0; c < pieces.length; c++){
+                printPiece(pieces[i][c], possibleMoves[i][c]);
+            }
+            System.out.println();
+        }
+        System.out.println("  a b c d e f g h");
+    }
+
+    private static void printPiece(ChessPiece piece, boolean background){
+        if(background){
+            System.out.print(ANSI_BLUE_BACKGROUND); // possibleMoves com fundo azul
+        }
         if (piece == null) {
-            System.out.print("-"); // se não tiver peça imprima "-"
+        System.out.print("-" + ANSI_RESET); // se não tiver peça imprima "-"
         }
         else { // se tiver imprima a peça
             if (piece.getColor() == Color.WHITE) { // caso for branca:
