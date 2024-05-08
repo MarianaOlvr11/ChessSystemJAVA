@@ -8,56 +8,67 @@ import boardGame.Piece;
 import boardGame.Position;
 
 
-public class ChessMatch {  // aqui terá as regras do sistema de Xadrez
-    private Board board;
+public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xadrez
 
+    private Board board; // tabuleiro da partida de xadrez.
+
+
+    // Construtor que inicializa a partida de xadrez com um tabuleiro de 8x8.
     public ChessMatch() {
         board = new Board(8, 8); // a dimensão do tabuleiro cabe a classe ChessMatch
         initialSetup(); // instancia o tabuleiro com peças
     }
 
-    public ChessPiece[][] getPieces() { // retorna uma matriz de peças de xadrez correspondente a essa partida
+    // Método que retorna uma matriz com as peças de xadrez da partida.
+    public ChessPiece[][] getPieces() {
         ChessPiece[][] mat = new ChessPiece[board.getRows()][board.getColumns()]; // programa Main deve só enxergar peça do tipo ChessPiece, variavel matriz temporaria.
         // percorrer a matriz de peças do tabuleiro Board e para cada peça realizar um downcasting para ChessPiece
 
         for (int i = 0; i < board.getRows(); i++) {
             for(int c = 0; c < board.getColumns(); c++) {
-                mat[i][c] = (ChessPiece) board.piece(i, c); // para cada posição i,c do tabuleiro a matriz mat i,c recebe o downcasting para peça de xadrez
+                mat[i][c] = (ChessPiece) board.piece(i, c); // para cada posição i,c do tabuleiro a matriz mat i,c recebe o downcasting para peça de xadrez (Converte as peças do tipo genérico 'Piece' para 'ChessPiece'.)
             }
         }
         return mat; // retorna a matriz de peças da partida de xadrez
     }
 
+    // Método que executa um movimento de xadrez, movendo uma peça de uma posição de origem para uma de destino.
     public ChessPiece performChessMove (ChessPosition sourcePosition, ChessPosition targetPosition){
         Position source = sourcePosition.toPosition();
         Position target = targetPosition.toPosition();
 
         validateSourcePosition(source); // valida a posição de origem existe
 
-        Piece capturePiece = makeMove(source, target); // realiza movimento da peça
+        Piece capturePiece = makeMove(source, target); // realiza o movimento e captura uma peça, se houver.
 
-        return (ChessPiece) capturePiece;
+        return (ChessPiece) capturePiece; // retorna a peça capturada, se houver.
     }
 
+    // método privado que realiza o movimento de uma peça no tabuleiro.
     private Piece makeMove(Position source, Position target){
-        Piece p = board.removePiece(source);
+        Piece p = board.removePiece(source); // remove a peça da posição de origem
         Piece capturePiece = board.removePiece(target); // remove possivel peça da posição de destino
-        board.placePiece(p, target);
+        board.placePiece(p, target); // coloca a peça na posição de destino
 
-        return capturePiece;
+        return capturePiece; // // retorna a peça capturada.
     }
 
+    // método privado que valida se a posição de origem contém uma peça que pode se mover.
     private void validateSourcePosition (Position position){
         if (!board.thereIsAPiece(position)){ // se não existir peça nessa posição dar exceção
-            throw new ChessException("There is no piece on source position");
+            throw new ChessException("There is no piece on source position"); // lança exceção
+        }
+        if (!board.piece(position).isThereAnyPossibleMove()){ // se não tiver nenhum movimento possivel
+            throw new ChessException("There is no possible moves for the chosen pieces."); // lança exceção
         }
     }
 
+    // método privado que coloca uma nova peça no tabuleiro nas coordenadas de xadrez (ex: a1).
     private void placeNewPieceModelA1(char column, int row, ChessPiece piece){
         board.placePiece(piece, new ChessPosition(column, row).toPosition()); // passa a posição nas cordenadas do xadrez a1
     }
 
-    private void initialSetup(){  // inicia a partida com as peças no lugar
+    private void initialSetup(){  // configura o tabuleiro com as peças iniciais de uma partida de xadrez.
 
 
         placeNewPieceModelA1('c', 2, new Rook(board, Color.WHITE)); // coloca a torre no lugar com a cor branca
