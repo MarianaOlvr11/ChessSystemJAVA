@@ -38,6 +38,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         Position target = targetPosition.toPosition();
 
         validateSourcePosition(source); // valida a posição de origem existe
+        validateTargetPosition(source, target);
 
         Piece capturePiece = makeMove(source, target); // realiza o movimento e captura uma peça, se houver.
 
@@ -63,6 +64,14 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         }
     }
 
+    private void validateTargetPosition(Position source, Position target){ // testa se a posição de destino é um movimento possivel em relação a peça que estiver na posição de origem
+        if(!board.piece(source).possibleMove(target)){
+            throw new ChessException("The chosen piece can't move to target position.");
+        }
+
+    }
+
+
     // método privado que coloca uma nova peça no tabuleiro nas coordenadas de xadrez (ex: a1).
     private void placeNewPieceModelA1(char column, int row, ChessPiece piece){
         board.placePiece(piece, new ChessPosition(column, row).toPosition()); // passa a posição nas cordenadas do xadrez a1
@@ -84,4 +93,6 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         placeNewPieceModelA1('e', 8, new Rook(board, Color.BLACK));
         placeNewPieceModelA1('d', 8, new King(board, Color.BLACK));
     }
+
+
 }
