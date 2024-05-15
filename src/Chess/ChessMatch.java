@@ -7,12 +7,19 @@ import boardGame.BoardException;
 import boardGame.Piece;
 import boardGame.Position;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xadrez
 
     private Board board; // tabuleiro da partida de xadrez.
     private int turn; // turno do jogo
     private Color currentPlayer; // jogador atual de acordo com a cor
+
+    private List<Piece> piecesOnTheBoard = new ArrayList<>(); // lista que contem as peças que estão no tabuleiro
+
+    private List<Piece> capturedPieces = new ArrayList<>(); // lista que contem as peças que não estão no tabuleiro
 
 
     public int getTurn() {
@@ -69,7 +76,13 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         Piece capturePiece = board.removePiece(target); // remove possivel peça da posição de destino
         board.placePiece(p, target); // coloca a peça na posição de destino
 
+        if (capturePiece != null){ // logica que coloca as peças capturadas na lista de peças fora do tabuleiro
+            piecesOnTheBoard.remove(capturePiece);
+            capturedPieces.add(capturePiece);
+        }
+
         return capturePiece; // // retorna a peça capturada.
+
     }
 
     // método privado que valida se a posição de origem contém uma peça que pode se mover.
@@ -86,12 +99,12 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         }
     }
 
-    private void validateTargetPosition(Position source, Position target){ // testa se a posição de destino é um movimento possivel em relação a peça que estiver na posição de origem
-        if(!board.piece(source).possibleMove(target)){
-            throw new ChessException("The chosen piece can't move to target position.");
+    private void validateTargetPosition(Position source, Position target) { // testa se a posição de destino é um movimento possivel em relação a peça que estiver na posição de origem
+        if (!board.piece(source).possibleMove(target)) {
+            throw new ChessException("The chosen piece can't move to target position");
         }
-
     }
+
 
     private void nextTurn(){ // metodo de troca de turno
         turn ++;
@@ -102,6 +115,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
     // método privado que coloca uma nova peça no tabuleiro nas coordenadas de xadrez (ex: a1).
     private void placeNewPieceModelA1(char column, int row, ChessPiece piece){
         board.placePiece(piece, new ChessPosition(column, row).toPosition()); // passa a posição nas cordenadas do xadrez a1
+        piecesOnTheBoard.add(piece); //coloca na lista de peças no tabuleiro
     }
 
     private void initialSetup(){  // configura o tabuleiro com as peças iniciais de uma partida de xadrez.
@@ -126,6 +140,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         validateSourcePosition(position);
         return board.piece(position).possibleMoves();
     }
+
+
 
 
 }

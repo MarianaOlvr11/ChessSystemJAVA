@@ -5,7 +5,9 @@ import Chess.ChessPosition;
 import boardGame.BoardException;
 import boardGame.Position;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
@@ -15,6 +17,7 @@ public class Main {
 
 
         ChessMatch chessMatch = new ChessMatch();
+        List<ChessPiece> captured = new ArrayList<>();
 
 
 
@@ -23,7 +26,7 @@ public class Main {
           try {
               // fazer função para imprimir peças do tabuleiro
               UI.clearScreen(); // limpa a tela toda vez que o while volta
-              UI.printMatch(chessMatch);
+              UI.printMatch(chessMatch, captured);
               System.out.println();
               System.out.print("Source: ");
               ChessPosition source = UI.readChessPosition(sc);
@@ -38,6 +41,10 @@ public class Main {
               ChessPosition target = UI.readChessPosition(sc);
 
               ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+
+              if (capturedPiece != null){ // se executar um movimento e uma peça for capturada ela entra na lista de peças capturadas
+                  captured.add(capturedPiece);
+              }
           }
           catch (ChessException e){
               System.out.println(e.getMessage());

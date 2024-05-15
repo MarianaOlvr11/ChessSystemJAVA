@@ -19,57 +19,53 @@ public class Rook extends ChessPiece {
 
     // método que determina os movimentos possíveis da Torre.
     @Override
-    public boolean[][] possibleMoves() {  // cria uma matriz de booleanos com o mesmo tamanho do tabuleiro.
-        boolean [][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
 
-        Position pAuxiliar = new Position(0,0);    // cria uma posição auxiliar para verificar os movimentos possíveis.
+    public boolean[][] possibleMoves() { // cria uma matriz de booleanos com o mesmo tamanho do tabuleiro.
+        boolean[][] mat = new boolean[getBoard().getRows()][getBoard().getColumns()];
+
+        Position p = new Position(0, 0); // cria uma posição auxiliar para verificar os movimentos possíveis.
 
         // acima da peça(verifica os movimentos possíveis acima da Torre)
-        pAuxiliar.setValues(position.getRow() -1 , position.getColumn()); // está acima então é menos 1
-        while(getBoard().positionExists(pAuxiliar) && !getBoard().thereIsAPiece(pAuxiliar)){ // enquanto a posição estiver vaga marca a posição como verdadeira
-            mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true; // // marca a posição como possível.
-            pAuxiliar.setRow(pAuxiliar.getRow()-1); // move para a próxima posição acima.
-
-            if (getBoard().positionExists(pAuxiliar) && isThereOpponentPiece(pAuxiliar)){ // // se houver uma peça adversária, marca a posição e para o loop.
-                mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            }
+        p.setValues(position.getRow() - 1, position.getColumn()); // está acima então é menos 1
+        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) { // enquanto a posição estiver vaga marca a posição como verdadeira
+            mat[p.getRow()][p.getColumn()] = true;  // marca a posição como possível.
+            p.setRow(p.getRow() - 1); // move para a próxima posição acima.
+        }
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) { // se houver uma peça adversária, marca a posição e para o loop.
+            mat[p.getRow()][p.getColumn()] = true;
         }
 
         // esquerda da peça
-        pAuxiliar.setValues(position.getRow() , position.getColumn() - 1); // está acima então é menos 1
-        while(getBoard().positionExists(pAuxiliar) && !getBoard().thereIsAPiece(pAuxiliar)){ // enquanto a posição estiver vaga marca a posição como verdadeira
-            mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            pAuxiliar.setColumn(pAuxiliar.getColumn()-1);
-
-            if (getBoard().positionExists(pAuxiliar) && isThereOpponentPiece(pAuxiliar)){
-                mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            }
+        p.setValues(position.getRow(), position.getColumn() - 1);
+        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+            p.setColumn(p.getColumn() - 1);
+        }
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
         }
 
         // direita da peça
-
-        pAuxiliar.setValues(position.getRow() , position.getColumn() + 1); // está acima então é menos 1
-        while(getBoard().positionExists(pAuxiliar) && !getBoard().thereIsAPiece(pAuxiliar)){ // enquanto a posição estiver vaga marca a posição como verdadeira
-            mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            pAuxiliar.setColumn(pAuxiliar.getColumn()+1);
-
-            if (getBoard().positionExists(pAuxiliar) && isThereOpponentPiece(pAuxiliar)){
-                mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            }
+        p.setValues(position.getRow(), position.getColumn() + 1);
+        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+            p.setColumn(p.getColumn() + 1);
+        }
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
         }
 
-        // baixo da peça
-        pAuxiliar.setValues(position.getRow() + 1 , position.getColumn()); // está acima então é menos 1
-        while(getBoard().positionExists(pAuxiliar) && !getBoard().thereIsAPiece(pAuxiliar)){ // enquanto a posição estiver vaga marca a posição como verdadeira
-            mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            pAuxiliar.setRow(pAuxiliar.getRow()+1);
-
-            if (getBoard().positionExists(pAuxiliar) && isThereOpponentPiece(pAuxiliar)){
-                mat[pAuxiliar.getRow()][pAuxiliar.getColumn()] = true;
-            }
+        // abaixo da peça
+        p.setValues(position.getRow() + 1, position.getColumn());
+        while (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+            p.setRow(p.getRow() + 1);
         }
-
+        if (getBoard().positionExists(p) && isThereOpponentPiece(p)) {
+            mat[p.getRow()][p.getColumn()] = true;
+        }
 
         return mat;
     }
+
 }
