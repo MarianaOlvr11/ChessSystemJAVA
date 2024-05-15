@@ -97,14 +97,20 @@ public class UI {
         System.out.print(" ");
     }
 
-    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured){ // imprime a partida
+    public static void printMatch(ChessMatch chessMatch, List<ChessPiece> captured) { // imprime a partida
         printBoard(chessMatch.getPieces());
         System.out.println();
         printCapturedPieces(captured);
         System.out.println("Turn: " + chessMatch.getTurn());
-        System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
-        if(chessMatch.getCheck()){
-            System.out.println("WARNING!! YOU ARE IN CHECK.");
+
+        if (!chessMatch.getCheckMate()) {
+            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+            if (chessMatch.getCheck()) {
+                System.out.println("CHECK!");
+            }
+        } else {
+            System.out.println("CHECKMATE!");
+            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
         }
     }
 

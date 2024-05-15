@@ -24,6 +24,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     private boolean check;
 
+    private boolean checkMate;
+
 
     // metodo get do turno
     public int getTurn() {
@@ -39,6 +41,9 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         return check;
     }
 
+    public boolean getCheckMate() {
+        return checkMate;
+    }
 
     // Construtor que inicializa a partida de xadrez com um tabuleiro de 8x8.
     public ChessMatch() {
@@ -81,9 +86,14 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
         check = (testCheck(opponent(currentPlayer)))? true : false; // Atribui à variável 'check' o valor true se o rei do jogador atual estiver em xeque, caso contrário, false.
 
-        nextTurn(); // troca o turno
+        if (testCheckMate(opponent(currentPlayer))) {
+            checkMate = true;
+        }
+        else {
+            nextTurn();
+        }
 
-        return (ChessPiece) capturePiece; // retorna a peça capturada, se houver.
+        return (ChessPiece)capturePiece;
     }
 
 
@@ -123,32 +133,27 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
     private void initialSetup() {  // configura o tabuleiro com as peças iniciais de uma partida de xadrez.
 
 
-        placeNewPieceModelA1('c', 2, new Rook(board, Color.WHITE)); // coloca a torre no lugar com a cor branca
-        placeNewPieceModelA1('d', 2, new Rook(board, Color.WHITE));
-        placeNewPieceModelA1('e', 2, new Rook(board, Color.WHITE));
-        placeNewPieceModelA1('e', 1, new Rook(board, Color.WHITE));
-        placeNewPieceModelA1('d', 1, new King(board, Color.WHITE));
+         // coloca a torre no lugar com a cor branca
+        placeNewPieceModelA1('h', 7, new Rook(board, Color.WHITE));
+        placeNewPieceModelA1('d', 1, new Rook(board, Color.WHITE));
+        placeNewPieceModelA1('e', 1, new King(board, Color.WHITE));
 
-        placeNewPieceModelA1('c', 7, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('c', 8, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('d', 7, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('e', 7, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('e', 8, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('d', 8, new King(board, Color.BLACK));
+        placeNewPieceModelA1('b', 8, new Rook(board, Color.BLACK));
+        placeNewPieceModelA1('a', 8, new King(board, Color.BLACK));
     }
 
     private Color opponent(Color color){ // Esta função determina a cor oposta da cor passada como argumento. Se a cor for BRANCA, a função retorna PRETA, e vice-versa.
         return (color == Color.WHITE)? Color.BLACK : Color.WHITE; // condicional ternária: se 'color' for igual a Color.WHITE, retorna Color.BLACK, senão retorna Color.WHITE.
     }
 
-    private ChessPiece king(Color color){ //  Esta função procura na lista de peças no tabuleiro a peça que é o rei da cor especificada.
-        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList()); // filtra na lista de peças em jogo qual q é o rei da cor X do argumento do metodo
-        for (Piece p : list){
-            if (p instanceof King){  // Verifica se a peça atual é uma instância de King (rei).
+    private ChessPiece king(Color color) {
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list) {
+            if (p instanceof King) {
                 return (ChessPiece)p;
             }
         }
-        throw new IllegalStateException("There is no" + color + "king on the board");
+        throw new IllegalStateException("There is no " + color + " king on the board");
     }
 
     private boolean testCheck(Color color){ //  Esta função verifica se o rei da cor especificada está em xeque.
@@ -164,6 +169,45 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         }
         return false; // Se nenhum dos movimentos possíveis das peças oponentes puder capturar o rei retorna falso
     }
+
+    private boolean testCheckMate(Color color){ // Verifica se o rei da cor especificada está em xeque-mate.
+        // Primeiro, verifica se o rei da cor especificada está em xeque.
+        if (!testCheck(color)){
+            // Se o rei não estiver em xeque, então não pode estar em xeque-mate.
+            return false;
+        }
+
+        // Obtém todas as peças do oponente.
+        List<Piece> list = piecesOnTheBoard.stream().filter(x -> ((ChessPiece)x).getColor() == color).collect(Collectors.toList());
+        for (Piece p : list){
+
+            boolean[][] mat = p.possibleMoves();// Matriz de movimentos possíveis para cada peça oponente.
+
+            for (int i = 0; i < board.getRows(); i++){ // Verifica todos os movimentos possíveis para cada peça oponente.
+                for (int c = 0; c < board.getColumns(); c++){
+                    // Se houver um movimento que possa tirar o rei do xeque.
+                    if(mat[i][c]){
+                        // Armazena a posição de origem e destino do movimento.
+                        Position source = ((ChessPiece)p).getChessPosition().toPosition();
+                        Position target = new Position(i,c);
+                        // Realiza o movimento e captura a peça no destino, se houver.
+                        Piece capturedPiece = makeMove(source, target);
+                        // Verifica se o rei ainda está em xeque após o movimento.
+                        boolean testCheck = testCheck(color);
+                        // Desfaz o movimento para restaurar o estado original do tabuleiro.
+                        undoMove(source, target, capturedPiece);
+
+
+                        if (!testCheck){ // Se o rei não estiver mais em xeque após o movimento, então não está em xeque-mate.
+                            return false;
+                        }
+                    }
+                }
+            }
+        }
+        return true;// Se nenhum movimento puder tirar o rei do xeque, então está em xeque-mate.
+    }
+
 
 
     public boolean[][] possibleMoves(ChessPosition sourcePosition) {  // Calcula os movimentos possíveis para uma peça na posição de origem fornecida.

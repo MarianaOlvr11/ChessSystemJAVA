@@ -21,7 +21,7 @@ public class Main {
 
 
 
-       while(true) {
+       while(!chessMatch.getCheckMate()) { // enquanto a partida não estiver em xeque mate
 
           try {
               // fazer função para imprimir peças do tabuleiro
@@ -59,6 +59,8 @@ public class Main {
               sc.nextLine();
           }
        }
+       UI.clearScreen();
+       UI.printMatch(chessMatch, captured);
         
     }
 }
