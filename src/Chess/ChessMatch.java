@@ -11,12 +11,28 @@ import boardGame.Position;
 public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xadrez
 
     private Board board; // tabuleiro da partida de xadrez.
+    private int turn; // turno do jogo
+    private Color currentPlayer; // jogador atual de acordo com a cor
+
+
+    public int getTurn() {
+        return turn;
+    }
+
+    public Color getCurrentPlayer(){
+        return currentPlayer;
+    }
 
 
     // Construtor que inicializa a partida de xadrez com um tabuleiro de 8x8.
     public ChessMatch() {
         board = new Board(8, 8); // a dimensão do tabuleiro cabe a classe ChessMatch
+
         initialSetup(); // instancia o tabuleiro com peças
+
+        turn = 1; // o turno no inicio da partida vale 1
+
+        currentPlayer = Color.WHITE; // primeiro jogador é o branco
     }
 
     // Método que retorna uma matriz com as peças de xadrez da partida.
@@ -42,6 +58,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
         Piece capturePiece = makeMove(source, target); // realiza o movimento e captura uma peça, se houver.
 
+        nextTurn(); // troca o turno
+
         return (ChessPiece) capturePiece; // retorna a peça capturada, se houver.
     }
 
@@ -59,6 +77,10 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         if (!board.thereIsAPiece(position)){ // se não existir peça nessa posição dar exceção
             throw new ChessException("There is no piece on source position"); // lança exceção
         }
+        if (currentPlayer != ((ChessPiece)board.piece(position)).getColor()){ // verifica se a cor inicial é branca
+            throw new ChessException("The chosen piece is not yours");
+
+        }
         if (!board.piece(position).isThereAnyPossibleMove()){ // se não tiver nenhum movimento possivel
             throw new ChessException("There is no possible moves for the chosen pieces."); // lança exceção
         }
@@ -69,6 +91,11 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             throw new ChessException("The chosen piece can't move to target position.");
         }
 
+    }
+
+    private void nextTurn(){ // metodo de troca de turno
+        turn ++;
+        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE; // (condicional terniaria) se o jogador atual for igual a Color.White entao ele mudará para Color.Black e senao muda pra branco denovo
     }
 
 

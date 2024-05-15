@@ -23,7 +23,7 @@ public class Main {
           try {
               // fazer função para imprimir peças do tabuleiro
               UI.clearScreen(); // limpa a tela toda vez que o while volta
-              UI.printBoard(chessMatch.getPieces());
+              UI.printMatch(chessMatch);
               System.out.println();
               System.out.print("Source: ");
               ChessPosition source = UI.readChessPosition(sc);
