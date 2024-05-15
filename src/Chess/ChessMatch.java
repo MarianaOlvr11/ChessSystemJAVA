@@ -218,7 +218,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     // método privado que realiza o movimento de uma peça no tabuleiro.
     private Piece makeMove(Position source, Position target) {
-        Piece p = board.removePiece(source); // remove a peça da posição de origem
+        ChessPiece p = (ChessPiece) board.removePiece(source); // remove a peça da posição de origem
+        p.increaseMoveCount();
         Piece capturePiece = board.removePiece(target); // remove possivel peça da posição de destino
         board.placePiece(p, target); // coloca a peça na posição de destino
 
@@ -233,7 +234,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     // metodo que desfaz o movimento
     private void undoMove(Position source, Position target, Piece capturedPiece) {
-        Piece p = board.removePiece(target); // tira a peça da posição de destino
+        ChessPiece p = (ChessPiece) board.removePiece(target); // tira a peça da posição de destino
+        p.decreaseMoveCount();
         board.placePiece(p, source);
 
         if (capturedPiece != null) {
@@ -242,6 +244,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             piecesOnTheBoard.add(capturedPiece);
         }
     }
+
 
 
 

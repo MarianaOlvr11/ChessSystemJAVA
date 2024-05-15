@@ -7,6 +7,7 @@ import boardGame.Position;
 public abstract class ChessPiece extends Piece { // peça de Xadrez é subclass abstrata de peça
 
     private Color color;
+    private int moveCount;
 
     public ChessPiece(Board board, Color color) {
         super(board);
@@ -17,6 +18,18 @@ public abstract class ChessPiece extends Piece { // peça de Xadrez é subclass 
         return color;
     }
 
+    public int getMoveCount() {
+        return moveCount;
+    }
+
+    public void increaseMoveCount(){
+        moveCount++;
+    }
+
+    public void decreaseMoveCount(){
+        moveCount--;
+    }
+
     public ChessPosition getChessPosition(){
         return ChessPosition.fromPosition(position);
     }
@@ -25,4 +38,7 @@ public abstract class ChessPiece extends Piece { // peça de Xadrez é subclass 
         ChessPiece pieceP = (ChessPiece) getBoard().piece(position); // variavel que recebe a peça que ta na posição X, downcasting para chessPiece
         return pieceP != null && pieceP.getColor()!= color; // se a peçaP é diferente de nulo e se a peçaP é diferente da cor da minha peça
     }
+
+
+
 }
