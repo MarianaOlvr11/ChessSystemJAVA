@@ -2,7 +2,6 @@ package Chess;
 
 import Chess.pieces.*;
 import boardGame.Board;
-import boardGame.BoardException;
 import boardGame.Piece;
 import boardGame.Position;
 
@@ -52,7 +51,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
         turn = 1; // o turno no inicio da partida vale 1
 
-        currentPlayer = Color.WHITE; // primeiro jogador é o branco
+        currentPlayer = Color.BRANCO; // primeiro jogador é o branco
     }
 
     // Método que retorna uma matriz com as peças de xadrez da partida.
@@ -119,7 +118,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     private void nextTurn() { // metodo de troca de turno
         turn++;
-        currentPlayer = (currentPlayer == Color.WHITE) ? Color.BLACK : Color.WHITE; // (condicional terniaria) se o jogador atual for igual a Color.White entao ele mudará para Color.Black e senao muda pra branco denovo
+        currentPlayer = (currentPlayer == Color.BRANCO) ? Color.PRETO : Color.BRANCO; // (condicional terniaria) se o jogador atual for igual a Color.White entao ele mudará para Color.Black e senao muda pra branco denovo
     }
 
 
@@ -133,45 +132,45 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
 
          // coloca as peças brancas
-        placeNewPieceModelA1('a', 1, new Rook(board, Color.WHITE));
-        placeNewPieceModelA1('e', 1, new King(board, Color.WHITE));
-        placeNewPieceModelA1('h', 1, new Rook(board, Color.WHITE));
-        placeNewPieceModelA1('a', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('b', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('c', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('d', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('e', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('f', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('g', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('h', 2, new Pawn(board, Color.WHITE));
-        placeNewPieceModelA1('c', 1, new Bishop(board, Color.WHITE));
-        placeNewPieceModelA1('f', 1, new Bishop(board, Color.WHITE));
-        placeNewPieceModelA1('b', 1, new Knight(board, Color.WHITE));
-        placeNewPieceModelA1('g', 1, new Knight(board, Color.WHITE));
-        placeNewPieceModelA1('d', 1, new Queen(board, Color.WHITE));
+        placeNewPieceModelA1('a', 1, new Rook(board, Color.BRANCO));
+        placeNewPieceModelA1('e', 1, new King(board, Color.BRANCO, this)); // autoreferencia da partuda de xadrez
+        placeNewPieceModelA1('h', 1, new Rook(board, Color.BRANCO));
+        placeNewPieceModelA1('a', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('b', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('c', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('d', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('e', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('f', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('g', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('h', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('c', 1, new Bishop(board, Color.BRANCO));
+        placeNewPieceModelA1('f', 1, new Bishop(board, Color.BRANCO));
+        placeNewPieceModelA1('b', 1, new Knight(board, Color.BRANCO));
+        placeNewPieceModelA1('g', 1, new Knight(board, Color.BRANCO));
+        placeNewPieceModelA1('d', 1, new Queen(board, Color.BRANCO));
 
 
         // coloca as peças pretas
-        placeNewPieceModelA1('a', 8, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('e', 8, new King(board, Color.BLACK));
-        placeNewPieceModelA1('h', 8, new Rook(board, Color.BLACK));
-        placeNewPieceModelA1('a', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('b', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('c', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('d', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('e', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('f', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('g', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('h', 7, new Pawn(board, Color.BLACK));
-        placeNewPieceModelA1('c', 8, new Bishop(board, Color.BLACK));
-        placeNewPieceModelA1('f', 8, new Bishop(board, Color.BLACK));
-        placeNewPieceModelA1('b', 8, new Knight(board, Color.BLACK));
-        placeNewPieceModelA1('g', 8, new Knight(board, Color.BLACK));
-        placeNewPieceModelA1('d', 8, new Queen(board, Color.BLACK));
+        placeNewPieceModelA1('a', 8, new Rook(board, Color.PRETO));
+        placeNewPieceModelA1('e', 8, new King(board, Color.PRETO, this)); // autoreferencia da partuda de xadrez
+        placeNewPieceModelA1('h', 8, new Rook(board, Color.PRETO));
+        placeNewPieceModelA1('a', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('b', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('c', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('d', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('e', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('f', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('g', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('h', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('c', 8, new Bishop(board, Color.PRETO));
+        placeNewPieceModelA1('f', 8, new Bishop(board, Color.PRETO));
+        placeNewPieceModelA1('b', 8, new Knight(board, Color.PRETO));
+        placeNewPieceModelA1('g', 8, new Knight(board, Color.PRETO));
+        placeNewPieceModelA1('d', 8, new Queen(board, Color.PRETO));
     }
 
     private Color opponent(Color color){ // Esta função determina a cor oposta da cor passada como argumento. Se a cor for BRANCA, a função retorna PRETA, e vice-versa.
-        return (color == Color.WHITE)? Color.BLACK : Color.WHITE; // condicional ternária: se 'color' for igual a Color.WHITE, retorna Color.BLACK, senão retorna Color.WHITE.
+        return (color == Color.BRANCO)? Color.PRETO : Color.BRANCO; // condicional ternária: se 'color' for igual a Color.WHITE, retorna Color.BLACK, senão retorna Color.WHITE.
     }
 
     private ChessPiece king(Color color) {
@@ -256,6 +255,35 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             piecesOnTheBoard.remove(capturePiece);
             capturedPieces.add(capturePiece);
         }
+        // #special move castling kingside rook (roque pequeno)
+        if(p instanceof King && target.getColumn() == source.getColumn() + 2){
+            // Esta condição verifica se a peça é um rei e se o movimento é um roque pequeno (duas casas para a direita).
+            Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
+            // Define a posição original da torre no roque pequeno.
+            Position targetT = new Position(source.getRow(), source.getColumn() + 1);
+            // Define a posição final da torre após o roque pequeno.
+            ChessPiece rook = (ChessPiece)board.removePiece(sourceT); // retira a torre da onde ela está
+            // Remove a torre da sua posição original.
+            board.placePiece(rook, targetT);
+            // Coloca a torre na posição final após o roque pequeno.
+            rook.increaseMoveCount();
+            // Incrementa o contador de movimentos da torre, pois ela foi movida.
+        }
+
+        // #special move castling queenside rook (roque grande)
+        if(p instanceof King && target.getColumn() == source.getColumn() - 2){
+            // Esta condição verifica se a peça é um rei e se o movimento é um roque grande (duas casas para a esquerda).
+            Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
+            // Define a posição original da torre no roque grande.
+            Position targetT = new Position(source.getRow(), source.getColumn() - 1);
+            // Define a posição final da torre após o roque grande.
+            ChessPiece rook = (ChessPiece)board.removePiece(sourceT); // retira a torre da onde ela está
+            // Remove a torre da sua posição original.
+            board.placePiece(rook, targetT);
+            // Coloca a torre na posição final após o roque grande.
+            rook.increaseMoveCount();
+            // Incrementa o contador de movimentos da torre, pois ela foi movida.
+        }
 
         return capturePiece; // // retorna a peça capturada.
     }
@@ -270,6 +298,36 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             board.placePiece(capturedPiece, target);
             capturedPieces.remove(capturedPiece);
             piecesOnTheBoard.add(capturedPiece);
+        }
+
+        // desfazer roque pequeno
+        if(p instanceof King && target.getColumn() == source.getColumn() + 2){
+            // Verifica se a peça é um rei e se o movimento foi um roque pequeno (duas casas para a direita).
+            Position sourceT = new Position(source.getRow(), source.getColumn() + 3);
+            // Define a posição original da torre antes do roque pequeno.
+            Position targetT = new Position(source.getRow(), source.getColumn() + 1);
+            // Define a posição onde a torre terminou após o roque pequeno.
+            ChessPiece rook = (ChessPiece)board.removePiece(targetT); // retira a torre da posição de destino
+            // Remove a torre da posição final após o roque pequeno.
+            board.placePiece(rook, sourceT);
+            // Coloca a torre de volta à sua posição original.
+            rook.decreaseMoveCount();
+            // Decrementa o contador de movimentos da torre, pois o movimento de roque foi desfeito.
+        }
+
+        // desfaz o roque grande
+        if(p instanceof King && target.getColumn() == source.getColumn() - 2){
+            // Verifica se a peça é um rei e se o movimento foi um roque grande (duas casas para a esquerda).
+            Position sourceT = new Position(source.getRow(), source.getColumn() - 4);
+            // Define a posição original da torre antes do roque grande.
+            Position targetT = new Position(source.getRow(), source.getColumn() - 1);
+            // Define a posição onde a torre terminou após o roque grande.
+            ChessPiece rook = (ChessPiece)board.removePiece(targetT); // retira a torre da posição de destino
+            // Remove a torre da posição final após o roque grande.
+            board.placePiece(rook, sourceT);
+            // Coloca a torre de volta à sua posição original.
+            rook.decreaseMoveCount();
+            // Decrementa o contador de movimentos da torre, pois o movimento de roque foi desfeito.
         }
     }
 

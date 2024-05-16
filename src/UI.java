@@ -87,7 +87,7 @@ public class UI {
         System.out.print("―" + ANSI_RESET); // se não tiver peça imprima "-"
         }
         else { // se tiver imprima a peça
-            if (piece.getColor() == Color.WHITE) { // caso for branca:
+            if (piece.getColor() == Color.BRANCO) { // caso for branca:
                 System.out.print(ANSI_WHITE + piece + ANSI_RESET);
             }
             else { // se for preta:
@@ -101,35 +101,35 @@ public class UI {
         printBoard(chessMatch.getPieces());
         System.out.println();
         printCapturedPieces(captured);
-        System.out.println("Turn: " + chessMatch.getTurn());
+        System.out.println("Turno: " + chessMatch.getTurn());
 
         if (!chessMatch.getCheckMate()) {
-            System.out.println("Waiting player: " + chessMatch.getCurrentPlayer());
+            System.out.println("Esperando o jogador: " + chessMatch.getCurrentPlayer());
             if (chessMatch.getCheck()) {
-                System.out.println("CHECK!");
+                System.out.println("XEQUE!");
             }
         } else {
-            System.out.println("CHECKMATE!");
-            System.out.println("Winner: " + chessMatch.getCurrentPlayer());
+            System.out.println("XEQUEMATE!");
+            System.out.println("VENCEDOR: " + chessMatch.getCurrentPlayer());
         }
     }
 
     private static void printCapturedPieces (List<ChessPiece> captured){
-        List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.WHITE).collect(Collectors.toList()); // filtra na lista onde todo mundo é da cor branca
-        List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.BLACK).collect(Collectors.toList()); // filtra na lista onde todo mundo é da cor preta
+        List<ChessPiece> white = captured.stream().filter(x -> x.getColor() == Color.BRANCO).collect(Collectors.toList()); // filtra na lista onde todo mundo é da cor branca
+        List<ChessPiece> black = captured.stream().filter(x -> x.getColor() == Color.PRETO).collect(Collectors.toList()); // filtra na lista onde todo mundo é da cor preta
 
-        System.out.println("Captured Pieces: ");
+        System.out.println("PEÇAS CAPTURADAS: ");
         System.out.println();
 
         // imprimir lista de peças brancas capturadas
-        System.out.print("White: ");
+        System.out.print("BRANCAS: ");
         System.out.print(ANSI_WHITE);
         System.out.print(Arrays.toString(white.toArray()));
 
         System.out.println(ANSI_RESET); // reseta a cor
 
         // imprimir lista de peças pretas capturadas
-        System.out.print("Black: ");
+        System.out.print("PRETAS: ");
         System.out.print(ANSI_YELLOW);
         System.out.println(Arrays.toString(black.toArray()));
         System.out.println(ANSI_RESET); // reseta a cor

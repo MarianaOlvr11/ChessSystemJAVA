@@ -28,7 +28,7 @@ public class Main {
               UI.clearScreen(); // limpa a tela toda vez que o while volta
               UI.printMatch(chessMatch, captured);
               System.out.println();
-              System.out.print("Source: ");
+              System.out.print("Que peça será movida: ");
               ChessPosition source = UI.readChessPosition(sc);
 
               boolean[][] possibleMoves = chessMatch.possibleMoves(source);
@@ -37,7 +37,7 @@ public class Main {
 
 
               System.out.println();
-              System.out.print("Target: ");
+              System.out.print("Destino da peça: ");
               ChessPosition target = UI.readChessPosition(sc);
 
               ChessPiece capturedPiece = chessMatch.performChessMove(source, target);

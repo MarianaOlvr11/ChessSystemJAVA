@@ -18,7 +18,7 @@ public class Pawn extends ChessPiece {
 
         Position p = new Position(0, 0); // cria uma posição auxiliar para verificar os movimentos possíveis.
 
-        if (getColor() == Color.WHITE){ // se for branco peao se move para cima
+        if (getColor() == Color.BRANCO){ // se for branco peao se move para cima
             p.setValues(position.getRow() - 1, position.getColumn());
             if (getBoard().positionExists(p) && !getBoard().thereIsAPiece(p)) {
                 mat[p.getRow()][p.getColumn()] = true;
