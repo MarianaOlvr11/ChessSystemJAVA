@@ -59,7 +59,7 @@ public class Bishop extends ChessPiece {
 
         return mat;
     }
-    // método que retorna a representação textual do peao.
+    // método que retorna a representação textual do bispo.
     @Override
     public String toString() {
         return "♗";
