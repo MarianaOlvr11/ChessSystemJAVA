@@ -45,6 +45,15 @@ public class Main {
               if (capturedPiece != null){ // se executar um movimento e uma peça for capturada ela entra na lista de peças capturadas
                   captured.add(capturedPiece);
               }
+              if(chessMatch.getPromoted() != null){ // usuario insere qual peça ele quer trocar na promoção
+                  System.out.print("Insira o código da peça para promoção ➜ Cavalo(C), Torre(T), Bispo(B), Rainha(R): ");
+                  String type = sc.nextLine().toUpperCase();
+                  while (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("R")){
+                      System.out.print("VALOR INVÁLIDO\n Insira o código da peça para promoção ➜ Cavalo(C), Torre(T), Bispo(B), Rainha(R): ");
+                       type = sc.nextLine().toUpperCase();
+                  }
+                  chessMatch.replacePromotedPiece(type);
+              }
           }
           catch (ChessException e){
               System.out.println(e.getMessage());

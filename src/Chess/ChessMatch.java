@@ -5,6 +5,7 @@ import boardGame.Board;
 import boardGame.Piece;
 import boardGame.Position;
 
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +27,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     private ChessPiece enPassantVunerable;
 
+    private ChessPiece promoted;
+
 
     // metodo get do turno
     public int getTurn() {
@@ -37,16 +40,24 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         return currentPlayer;
     }
 
+    // get do turno
     public boolean getCheck (){
         return check;
     }
 
+    // get do xequeMate
     public boolean getCheckMate() {
         return checkMate;
     }
 
+    // get do EnPassant
     public ChessPiece getEnPassantVunerable() {
         return enPassantVunerable;
+    }
+
+    // get da promoção
+    public ChessPiece getPromoted() {
+        return promoted;
     }
 
     // Construtor que inicializa a partida de xadrez com um tabuleiro de 8x8.
@@ -83,6 +94,7 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
         Piece capturePiece = makeMove(source, target); // realiza o movimento e captura uma peça, se houver.
 
+
         if (testCheck(currentPlayer)){ // ve se o jogador se colocou em xeque
             undoMove(source, target, capturePiece);
             throw new ChessException("You can't put yourself in check");
@@ -90,25 +102,61 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
         ChessPiece movedPiece = (ChessPiece)board.piece(target);
 
+        // #special move promotion
+                promoted = null; // Inicializa a variável 'promoted' como null. Esta variável será usada para armazenar a peça promovida.
+                if(movedPiece instanceof Pawn){  // Verifica se a peça movida é um peão.
+                    if(movedPiece.getColor() == Color.BRANCO && target.getRow() == 0 || movedPiece.getColor() == Color.PRETO && target.getRow() == 7){ // Verifica se o peão alcançou a última linha do tabuleiro. Para peões brancos, é a linha 0; para peões pretos, é a linha 7.
+                        promoted = (ChessPiece)board.piece(target); // A peça promovida é a peça que está na posição de destino (onde o peão chegou).
+                        promoted = replacePromotedPiece("♕"); // A peça promovida é substituída pela peça padrao, que neste caso é uma rainha (♕).
+                    }
+                }
 
         check = (testCheck(opponent(currentPlayer)))? true : false; // Atribui à variável 'check' o valor true se o rei do jogador atual estiver em xeque, caso contrário, false.
 
-        if (testCheckMate(opponent(currentPlayer))) {
+        if (testCheckMate(opponent(currentPlayer))) { // verifica se o jogador atual esta em xequemate para terminar o jogo
             checkMate = true;
         }
-        else {
+        else { // senao tiver o jogo continua
             nextTurn();
         }
 
         // #special move en passant
-        if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2  )){
-            enPassantVunerable = movedPiece;
+        if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2  )){ // verifica se a peça movida é um peão e se ele se moveu duas casas para frente (o que só é possível a partir da posição inicial do peão).
+            enPassantVunerable = movedPiece; // se as condições forem verdadeiras, o peão movido é marcado como vulnerável ao en passant.
         }
         else {
-            enPassantVunerable = null;
+            enPassantVunerable = null; // senão nenhuma peça é marcada como vulnerável ao en passant.
         }
 
-        return (ChessPiece)capturePiece;
+        return (ChessPiece)capturePiece; // retorna a peça capturada (se houver) após o movimento.
+    }
+
+    // esse método  é usado para substituir uma peça de peão promovida no xadrez por uma nova peça, de acordo com o tipo especificado pelo jogador.
+    public ChessPiece replacePromotedPiece (String type){
+        if(promoted == null){ // se não houver peça para ser promovida, lança uma exceção.
+            throw new IllegalStateException("There is no piece to be promoted.");
+        }
+        if (!type.equals("B") && !type.equals("C") && !type.equals("T") && !type.equals("R")){ // se o tipo fornecido não for um dos tipos válidos para promoção (Bispo, Cavalo, Torre, Rainha), retorna a peça promovida por padrao (rainha)
+            return promoted;
+        }
+
+        Position pos = promoted.getChessPosition().toPosition(); // pega a posição da peça promovida no tabuleiro.
+        Piece p = board.removePiece(pos); // remove a peça promovida do tabuleiro.
+        piecesOnTheBoard.remove(p); // remove a peça promovida da lista de peças no tabuleiro.
+
+        ChessPiece newPiece = newPiece(type, promoted.getColor()); // instancia nova peça da mesma cor da peça promovida
+        board.placePiece(newPiece, pos); // coloca a peça na posição da peça promovida
+        piecesOnTheBoard.add(newPiece); // adiciona a nova peça à lista de peças no tabuleiro.
+
+        return newPiece; // retorna a nova peça
+
+    }
+
+    private ChessPiece newPiece (String type, Color color){ // instanciar nova peça da promoção de acordo com o codigo
+        if(type.equals("B")) return new Bishop(board, color);
+        if(type.equals("C")) return new Knight(board, color);
+        if(type.equals("T")) return new Rook(board, color);
+        return new Queen(board, color);
     }
 
 
@@ -386,11 +434,5 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         }
 
     }
-
-
-
-
-
-
 
 }

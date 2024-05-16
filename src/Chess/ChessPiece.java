@@ -18,19 +18,19 @@ public abstract class ChessPiece extends Piece { // peça de Xadrez é subclass 
         return color;
     }
 
-    public int getMoveCount() {
+    public int getMoveCount() { // Método para obter o número de movimentos da peça, que retorna o contador de movimentos.
         return moveCount;
     }
 
-    public void increaseMoveCount(){
+    public void increaseMoveCount(){ // Método para incrementar o contador de movimentos.
         moveCount++;
     }
 
-    public void decreaseMoveCount(){
+    public void decreaseMoveCount(){  // Método para decrementar o contador de movimentos.
         moveCount--;
     }
 
-    public ChessPosition getChessPosition(){
+    public ChessPosition getChessPosition(){ // Método para obter a posição da peça no formato de xadrez.
         return ChessPosition.fromPosition(position);
     }
 
