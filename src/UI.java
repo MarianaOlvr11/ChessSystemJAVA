@@ -63,7 +63,7 @@ public class UI {
             }
             System.out.println();
         }
-        System.out.println("  a b c d e f g h");
+        System.out.println("  aㅤbㅤcㅤdㅤeㅤfㅤgㅤh ");
     }
 
     // sobrecarga do metodo printBoard
@@ -76,7 +76,7 @@ public class UI {
             }
             System.out.println();
         }
-        System.out.println("  a b c d e f g h");
+        System.out.println("  aㅤbㅤcㅤdㅤeㅤfㅤgㅤh ");
     }
 
     private static void printPiece(ChessPiece piece, boolean background){
@@ -84,7 +84,7 @@ public class UI {
             System.out.print(ANSI_BLUE_BACKGROUND); // possibleMoves com fundo azul
         }
         if (piece == null) {
-        System.out.print("-" + ANSI_RESET); // se não tiver peça imprima "-"
+        System.out.print("―" + ANSI_RESET); // se não tiver peça imprima "-"
         }
         else { // se tiver imprima a peça
             if (piece.getColor() == Color.WHITE) { // caso for branca:
