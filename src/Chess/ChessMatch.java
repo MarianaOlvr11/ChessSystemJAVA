@@ -24,6 +24,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     private boolean checkMate;
 
+    private ChessPiece enPassantVunerable;
+
 
     // metodo get do turno
     public int getTurn() {
@@ -41,6 +43,10 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
 
     public boolean getCheckMate() {
         return checkMate;
+    }
+
+    public ChessPiece getEnPassantVunerable() {
+        return enPassantVunerable;
     }
 
     // Construtor que inicializa a partida de xadrez com um tabuleiro de 8x8.
@@ -82,6 +88,9 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             throw new ChessException("You can't put yourself in check");
         }
 
+        ChessPiece movedPiece = (ChessPiece)board.piece(target);
+
+
         check = (testCheck(opponent(currentPlayer)))? true : false; // Atribui à variável 'check' o valor true se o rei do jogador atual estiver em xeque, caso contrário, false.
 
         if (testCheckMate(opponent(currentPlayer))) {
@@ -89,6 +98,14 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         }
         else {
             nextTurn();
+        }
+
+        // #special move en passant
+        if (movedPiece instanceof Pawn && (target.getRow() == source.getRow() - 2 || target.getRow() == source.getRow() + 2  )){
+            enPassantVunerable = movedPiece;
+        }
+        else {
+            enPassantVunerable = null;
         }
 
         return (ChessPiece)capturePiece;
@@ -135,14 +152,14 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         placeNewPieceModelA1('a', 1, new Rook(board, Color.BRANCO));
         placeNewPieceModelA1('e', 1, new King(board, Color.BRANCO, this)); // autoreferencia da partuda de xadrez
         placeNewPieceModelA1('h', 1, new Rook(board, Color.BRANCO));
-        placeNewPieceModelA1('a', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('b', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('c', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('d', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('e', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('f', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('g', 2, new Pawn(board, Color.BRANCO));
-        placeNewPieceModelA1('h', 2, new Pawn(board, Color.BRANCO));
+        placeNewPieceModelA1('a', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('b', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('c', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('d', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('e', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('f', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('g', 2, new Pawn(board, Color.BRANCO,this));
+        placeNewPieceModelA1('h', 2, new Pawn(board, Color.BRANCO,this));
         placeNewPieceModelA1('c', 1, new Bishop(board, Color.BRANCO));
         placeNewPieceModelA1('f', 1, new Bishop(board, Color.BRANCO));
         placeNewPieceModelA1('b', 1, new Knight(board, Color.BRANCO));
@@ -154,14 +171,14 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         placeNewPieceModelA1('a', 8, new Rook(board, Color.PRETO));
         placeNewPieceModelA1('e', 8, new King(board, Color.PRETO, this)); // autoreferencia da partuda de xadrez
         placeNewPieceModelA1('h', 8, new Rook(board, Color.PRETO));
-        placeNewPieceModelA1('a', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('b', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('c', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('d', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('e', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('f', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('g', 7, new Pawn(board, Color.PRETO));
-        placeNewPieceModelA1('h', 7, new Pawn(board, Color.PRETO));
+        placeNewPieceModelA1('a', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('b', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('c', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('d', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('e', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('f', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('g', 7, new Pawn(board, Color.PRETO,this));
+        placeNewPieceModelA1('h', 7, new Pawn(board, Color.PRETO,this));
         placeNewPieceModelA1('c', 8, new Bishop(board, Color.PRETO));
         placeNewPieceModelA1('f', 8, new Bishop(board, Color.PRETO));
         placeNewPieceModelA1('b', 8, new Knight(board, Color.PRETO));
@@ -284,6 +301,25 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             rook.increaseMoveCount();
             // Incrementa o contador de movimentos da torre, pois ela foi movida.
         }
+        // #specialmove en passant
+        if(p instanceof Pawn){// verifica se a peça é um peão.
+            if(source.getColumn() != target.getColumn() && capturePiece == null){ // verifica se o peão moveu-se na diagonal e não capturou uma peça no destino final, o que indica um movimento en passant.
+
+                Position pawnPosition;
+                if(p.getColor() == Color.BRANCO){ // se o peão for branco a posição do peão adversário capturado será uma linha abaixo da posição de destino
+                    pawnPosition = new Position(target.getRow() + 1, target.getColumn());
+                }
+                else { // se o peão for preto a posição do peão adversário capturado será uma linha acima da posição de destino.
+
+                    pawnPosition = new Position(target.getRow() - 1, target.getColumn());
+                }
+                capturePiece = board.removePiece(pawnPosition); // remove o peão adversário da posição
+                capturedPieces.add(capturePiece); // adiciona o peão capturado a lista de peças capturadas
+                piecesOnTheBoard.remove(capturePiece); // remove o peão capturado da lista de peças no tabuleiro
+
+            }
+        }
+
 
         return capturePiece; // // retorna a peça capturada.
     }
@@ -329,6 +365,26 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
             rook.decreaseMoveCount();
             // Decrementa o contador de movimentos da torre, pois o movimento de roque foi desfeito.
         }
+        // desfaz en passant
+        if(p instanceof Pawn){ // verifica se a peça é um peão.
+
+            if(source.getColumn() != target.getColumn() && capturedPiece == enPassantVunerable){  // Verifica se o peão moveu-se na diagonal e se a peça capturada foi marcada como vulnerável ao en passant.
+
+                ChessPiece pawn = (ChessPiece)board.removePiece(target);// Remove o peão da posição de destino, que é onde ele estaria após um en passant.
+
+                Position pawnPosition; // Inicializa a variável para a posição do peão.
+
+                if(p.getColor() == Color.BRANCO){ // se o peão for branco a posição do peão adversário capturado será uma linha abaixo da posição de destino
+                    pawnPosition = new Position(3, target.getColumn());// Se o peão for branco, a posição original do peão adversário antes do en passant é uma linha abaixo.
+                }
+                else { // se o peão for preto a posição do peão adversário capturado será uma linha acima da posição de destino.
+                    pawnPosition = new Position(4, target.getColumn());// Se o peão for preto, a posição original do peão adversário antes do en passant é uma linha acima.
+                }
+                board.placePiece(pawn, pawnPosition);// Coloca o peão de volta à sua posição original antes do en passant.
+
+            }
+        }
+
     }
 
 
