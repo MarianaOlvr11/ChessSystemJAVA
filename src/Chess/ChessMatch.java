@@ -1,5 +1,6 @@
 package Chess;
 
+import Chess.pieces.Bishop;
 import Chess.pieces.King;
 import Chess.pieces.Pawn;
 import Chess.pieces.Rook;
@@ -146,6 +147,9 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         placeNewPieceModelA1('f', 2, new Pawn(board, Color.WHITE));
         placeNewPieceModelA1('g', 2, new Pawn(board, Color.WHITE));
         placeNewPieceModelA1('h', 2, new Pawn(board, Color.WHITE));
+        placeNewPieceModelA1('c', 1, new Bishop(board, Color.WHITE));
+        placeNewPieceModelA1('f', 1, new Bishop(board, Color.WHITE));
+
 
         // coloca as peças pretas
         placeNewPieceModelA1('a', 8, new Rook(board, Color.BLACK));
@@ -159,6 +163,8 @@ public class ChessMatch {  // aqui terá as regras e a lógica do sistema de Xad
         placeNewPieceModelA1('f', 7, new Pawn(board, Color.BLACK));
         placeNewPieceModelA1('g', 7, new Pawn(board, Color.BLACK));
         placeNewPieceModelA1('h', 7, new Pawn(board, Color.BLACK));
+        placeNewPieceModelA1('c', 8, new Bishop(board, Color.BLACK));
+        placeNewPieceModelA1('f', 8, new Bishop(board, Color.BLACK));
     }
 
     private Color opponent(Color color){ // Esta função determina a cor oposta da cor passada como argumento. Se a cor for BRANCA, a função retorna PRETA, e vice-versa.
